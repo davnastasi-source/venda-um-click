@@ -133,29 +133,86 @@ h1,h2,h3,h4{font-family:'Raleway',sans-serif}
 
 /* ── VIP BANNER ── */
 .vip-banner{
-  display:flex;align-items:flex-start;gap:16px;
   background:linear-gradient(135deg,var(--teal-dark) 0%,var(--teal) 100%);
-  border-radius:10px;padding:22px 24px;margin-bottom:28px;
+  border-radius:10px;padding:24px;margin-bottom:28px;
   border:1px solid rgba(201,153,42,0.3);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.06);
   position:relative;overflow:hidden;
 }
-/* gold shimmer border at bottom */
 .vip-banner::after{
   content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,transparent,var(--gold-bright),var(--gold),var(--gold-bright),transparent);
 }
-.vip-banner .icon{font-size:1.9rem;flex-shrink:0;margin-top:2px}
 .vip-banner-title{
-  font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;
-  letter-spacing:1px;text-transform:uppercase;
-  color:var(--gold-bright);margin-bottom:10px;
+  font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold-bright);margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
 }
-.vip-banner p{
-  color:rgba(255,255,255,0.88);font-size:14px;line-height:1.75;
-  font-family:'Lato',sans-serif;
+.vip-items{display:flex;flex-direction:column;gap:0}
+.vip-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:11px 0;
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
-.vip-banner p strong{color:#fff}
+.vip-item:last-child{border-bottom:none;padding-bottom:0}
+.vip-item:first-child{padding-top:0}
+.vip-item-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;width:22px;text-align:center}
+.vip-item-text strong{
+  display:block;font-family:'Raleway',sans-serif;
+  font-size:13.5px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:1px;
+}
+.vip-item-text span{
+  font-size:12px;color:rgba(255,255,255,0.6);font-family:'Lato',sans-serif;
+}
+
+/* ── CLICK HINT & CARD SELECT ── */
+.click-hint{
+  font-size:12.5px;color:var(--text-muted);
+  font-style:italic;text-align:center;margin-top:4px;margin-bottom:16px;
+}
+.price-card{cursor:pointer}
+.price-card.selected{
+  border-color:var(--teal)!important;
+  background:var(--teal-light)!important;
+  box-shadow:0 0 0 3px rgba(24,119,125,0.15);
+}
+.price-card.selected .amount{color:var(--teal)}
+
+/* ── PAYMENT ROW ── */
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-row-3{display:grid;grid-template-columns:2fr 1fr 1.2fr;gap:14px;margin-bottom:16px}
+
+/* ── QTY STEPPER ── */
+.qty-stepper{
+  display:flex;align-items:center;
+  background:#fff;
+  border:1.5px solid rgba(255,255,255,0.2);
+  border-radius:10px;overflow:hidden;height:46px;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.qty-stepper:focus-within{
+  border-color:var(--gold-bright);
+  box-shadow:0 0 0 3px rgba(224,176,48,0.2);
+}
+.qty-btn{
+  width:42px;height:100%;flex-shrink:0;
+  background:rgba(24,119,125,0.07);border:none;cursor:pointer;
+  font-size:1.2rem;font-weight:300;color:var(--teal-dark);
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.15s;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.qty-btn:hover{background:rgba(24,119,125,0.16)}
+.qty-btn:active{background:rgba(24,119,125,0.25)}
+.qty-input{
+  flex:1;border:none;outline:none;text-align:center;
+  font-family:'Raleway',sans-serif;font-size:1.05rem;font-weight:700;
+  color:var(--text);background:transparent;
+  -moz-appearance:textfield;padding:0;
+}
+.qty-input::-webkit-inner-spin-button,
+.qty-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.qty-divider{width:1px;height:60%;background:rgba(0,0,0,0.1);flex-shrink:0}
 
 /* ── PRICING ── */
 .pricing-cards{
@@ -321,6 +378,7 @@ footer a{color:var(--gold-bright);text-decoration:none}
 @media(max-width:580px){
   .card,.checkout-card{padding:28px 20px}
   .f-row{grid-template-columns:1fr}
+  .f-row-3{grid-template-columns:1fr}
   .hero{padding:48px 20px 64px}
   .pricing-cards{grid-template-columns:1fr}
 }
@@ -365,37 +423,65 @@ footer a{color:var(--gold-bright);text-decoration:none}
     <div class="section-title-line"></div>
 
     <div class="vip-banner">
-      <div class="icon">💎</div>
-      <div>
-        <div class="vip-banner-title">O que inclui no Pacote VIP</div>
-        <p>
-          O Pacote VIP inclui uma <strong>sauna cerimonial</strong> conduzida por Suryavan e Sol Deva Nita,
-          uma <strong>vivência especial de 2 horas com Suryavan</strong>, uma
-          <strong>leitura de Sadhana personalizada</strong> para a sua jornada,
-          o ebook exclusivo <strong><em>Poderes Secretos Sadhana</em></strong>
-          e um <strong>Kit VIP com objetos de prática</strong>.
-        </p>
+      <div class="vip-banner-title">💎 &nbsp;O que inclui no Pacote VIP</div>
+      <div class="vip-items">
+        <div class="vip-item">
+          <div class="vip-item-icon">🔥</div>
+          <div class="vip-item-text">
+            <strong>Sauna cerimonial</strong>
+            <span>conduzida por Suryavan e Sol Deva Nita</span>
+          </div>
+        </div>
+        <div class="vip-item">
+          <div class="vip-item-icon">🌿</div>
+          <div class="vip-item-text">
+            <strong>Vivência de 2 horas com Suryavan</strong>
+            <span>encontro exclusivo para o grupo VIP</span>
+          </div>
+        </div>
+        <div class="vip-item">
+          <div class="vip-item-icon">📖</div>
+          <div class="vip-item-text">
+            <strong>Leitura de Sadhana personalizada</strong>
+            <span>mapa espiritual para a sua jornada</span>
+          </div>
+        </div>
+        <div class="vip-item">
+          <div class="vip-item-icon">📘</div>
+          <div class="vip-item-text">
+            <strong>Ebook Poderes Secretos Sadhana</strong>
+            <span>material exclusivo para aprofundamento</span>
+          </div>
+        </div>
+        <div class="vip-item">
+          <div class="vip-item-icon">🎁</div>
+          <div class="vip-item-text">
+            <strong>Kit VIP com objetos de prática</strong>
+            <span>curadoria especial de itens para o retiro</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="pricing-cards">
-      <div class="price-card featured">
-        <div class="badge">Melhor opção</div>
-        <div class="currency">BRL · À vista</div>
-        <div class="amount">R$ 7.500</div>
-        <div class="condition">Pix / Transferência</div>
-      </div>
-      <div class="price-card">
-        <div class="currency">BRL · 6× (+10%)</div>
-        <div class="amount">R$ 8.250</div>
-        <div class="condition">Sem juros<br/>Cartão de crédito</div>
-      </div>
-      <div class="price-card">
+      <div class="price-card" data-value="vip_10x" data-price="8625" onclick="selectIngresso(this)">
         <div class="currency">BRL · 10×</div>
         <div class="amount">R$ 8.625</div>
         <div class="condition">Sem juros CC<br/>Parcelamento estendido</div>
       </div>
+      <div class="price-card" data-value="vip_6x" data-price="8250" onclick="selectIngresso(this)">
+        <div class="currency">BRL · 6× (+10%)</div>
+        <div class="amount">R$ 8.250</div>
+        <div class="condition">Sem juros<br/>Cartão de crédito</div>
+      </div>
+      <div class="price-card featured" data-value="vip_avista" data-price="7500" onclick="selectIngresso(this)">
+        <div class="badge">Melhor opção!</div>
+        <div class="currency">BRL · À vista</div>
+        <div class="amount">R$ 7.500</div>
+        <div class="condition">Pix / Transferência</div>
+      </div>
     </div>
+    <p class="click-hint">Clique na opção desejada para pré-selecionar no formulário ↓</p>
 
     <div class="not-included">
       <strong>⚠️ Não incluso no Pacote VIP:</strong>
@@ -443,35 +529,54 @@ footer a{color:var(--gold-bright);text-decoration:none}
         <input type="text" id="f-endereco" placeholder="Logradouro + número + complemento" required/>
       </div>
 
-      <div class="f-row">
-        <div class="f-group">
-          <label>Tipo de ingresso *</label>
-          <select id="f-ingresso" required>
-            <option value="" disabled selected>Selecione…</option>
-            <option value="vip_avista">VIP À vista — R$ 7.500 (Pix)</option>
-            <option value="vip_6x">VIP 6× (+10%) — R$ 8.250 (CC)</option>
-            <option value="vip_10x">VIP 10× — R$ 8.625 (CC)</option>
-          </select>
-        </div>
+      <div class="f-group">
+        <label>Tipo de ingresso *</label>
+        <select id="f-ingresso" required>
+          <option value="" disabled selected>Selecione…</option>
+          <option value="vip_10x" data-price="8625">VIP 10× — R$ 8.625 (CC)</option>
+          <option value="vip_6x"  data-price="8250">VIP 6× (+10%) — R$ 8.250 (CC)</option>
+          <option value="vip_avista" data-price="7500">VIP À vista — R$ 7.500 (Pix) ★</option>
+        </select>
+      </div>
+
+      <div class="f-row-3">
         <div class="f-group">
           <label>Forma de pagamento *</label>
           <select id="f-pagamento" required>
             <option value="" disabled selected>Selecione…</option>
-            <option value="pix">À vista (100% no Pix)</option>
-            <option value="cc_6x">Cartão de crédito 6×</option>
-            <option value="cc_10x">Cartão de crédito 10×</option>
+            <option value="pix">À vista (Pix)</option>
+            <option value="cc_6x">Cartão 6×</option>
+            <option value="cc_10x">Cartão 10×</option>
           </select>
+        </div>
+        <div class="f-group">
+          <label>Quantidade</label>
+          <div class="qty-stepper">
+            <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+            <div class="qty-divider"></div>
+            <input type="number" id="f-qty" class="qty-input" min="1" max="10" value="1" readonly/>
+            <div class="qty-divider"></div>
+            <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+        <div class="f-group">
+          <label>Valor total</label>
+          <input type="text" id="f-total" readonly placeholder="—" style="background:rgba(255,255,255,0.85);font-weight:700;text-align:center;cursor:default"/>
         </div>
       </div>
 
       <div class="f-group" style="margin-bottom:0">
         <div class="terms-row">
-          <input type="checkbox" id="f-termos" required/>
-          <label for="f-termos">
-            Declaro que aceito os termos descritos no
-            <a href="https://condorblanco.com" target="_blank">contrato</a>
-            e autorizo a Condor Blanco a tratar meus dados para fins de confirmação desta inscrição VIP.
-          </label>
+          <input type="checkbox" id="f-termos1" required/>
+          <label for="f-termos1">Li e concordo com os <a href="https://condorblanco.com" target="_blank">Termos de Participação</a></label>
+        </div>
+        <div class="terms-row" style="margin-top:8px">
+          <input type="checkbox" id="f-termos2" required/>
+          <label for="f-termos2">Estou ciente das regras do retiro</label>
+        </div>
+        <div class="terms-row" style="margin-top:8px">
+          <input type="checkbox" id="f-termos3" required/>
+          <label for="f-termos3">Autorizo o uso dos meus dados pessoais (LGPD)</label>
         </div>
       </div>
 
@@ -536,15 +641,52 @@ footer a{color:var(--gold-bright);text-decoration:none}
 </footer>
 
 <script>
-document.getElementById('f-ingresso').addEventListener('change', function(){
-  var v = this.value;
+var PRICES = {
+  'vip_10x':   {unit:8625,currency:'BRL'},
+  'vip_6x':    {unit:8250,currency:'BRL'},
+  'vip_avista':{unit:7500,currency:'BRL'}
+};
+
+function fmtTotal(unit,qty,currency){
+  var t = unit*qty;
+  return (currency==='USD'?'USD ':'R$ ')+t.toLocaleString('pt-BR');
+}
+function updateTotal(){
+  var v = document.getElementById('f-ingresso').value;
+  var qty = parseInt(document.getElementById('f-qty').value)||1;
+  var tot = document.getElementById('f-total');
+  tot.value = (v && PRICES[v]) ? fmtTotal(PRICES[v].unit,qty,PRICES[v].currency) : '';
+}
+function changeQty(delta){
+  var el = document.getElementById('f-qty');
+  el.value = Math.min(10,Math.max(1,(parseInt(el.value)||1)+delta));
+  updateTotal();
+}
+function selectIngresso(card){
+  document.querySelectorAll('.price-card').forEach(function(c){c.classList.remove('selected');});
+  card.classList.add('selected');
+  var v = card.dataset.value;
+  document.getElementById('f-ingresso').value = v;
   var pg = document.getElementById('f-pagamento');
-  if(v === 'vip_avista') pg.value = 'pix';
-  else if(v === 'vip_6x') pg.value = 'cc_6x';
-  else if(v === 'vip_10x') pg.value = 'cc_10x';
+  if(v==='vip_avista')  pg.value='pix';
+  else if(v==='vip_6x') pg.value='cc_6x';
+  else if(v==='vip_10x')pg.value='cc_10x';
+  updateTotal();
+  document.getElementById('checkout').scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.getElementById('f-ingresso').addEventListener('change',function(){
+  var v=this.value;
+  var pg=document.getElementById('f-pagamento');
+  if(v==='vip_avista')  pg.value='pix';
+  else if(v==='vip_6x') pg.value='cc_6x';
+  else if(v==='vip_10x')pg.value='cc_10x';
+  document.querySelectorAll('.price-card').forEach(function(c){
+    c.classList.toggle('selected',c.dataset.value===v);
+  });
+  updateTotal();
 });
 
-document.getElementById('vip-form').addEventListener('submit', function(e){
+document.getElementById('vip-form').addEventListener('submit',function(e){
   e.preventDefault();
   var nome     = document.getElementById('f-nome').value.trim();
   var email    = document.getElementById('f-email').value.trim();
@@ -553,9 +695,12 @@ document.getElementById('vip-form').addEventListener('submit', function(e){
   var endereco = document.getElementById('f-endereco').value.trim();
   var ingresso = document.getElementById('f-ingresso').value;
   var pagamento= document.getElementById('f-pagamento').value;
-  var termos   = document.getElementById('f-termos').checked;
+  var qty      = document.getElementById('f-qty').value;
+  var t1       = document.getElementById('f-termos1').checked;
+  var t2       = document.getElementById('f-termos2').checked;
+  var t3       = document.getElementById('f-termos3').checked;
 
-  var erros = [];
+  var erros=[];
   if(!nome)     erros.push('Nome completo');
   if(!email)    erros.push('E-mail');
   if(!whats)    erros.push('WhatsApp');
@@ -563,28 +708,26 @@ document.getElementById('vip-form').addEventListener('submit', function(e){
   if(!endereco) erros.push('Endereço');
   if(!ingresso) erros.push('Tipo de ingresso');
   if(!pagamento)erros.push('Forma de pagamento');
-  if(!termos)   erros.push('Aceite dos termos');
+  if(!t1)       erros.push('Aceitar os Termos de Participação');
+  if(!t2)       erros.push('Confirmar ciência das regras do retiro');
+  if(!t3)       erros.push('Autorização de dados (LGPD)');
 
-  if(erros.length){
-    alert('Por favor, preencha os campos obrigatórios:\n\n• ' + erros.join('\n• '));
-    return;
-  }
+  if(erros.length){alert('Por favor, complete:\n\n• '+erros.join('\n• '));return;}
 
-  var btn = document.getElementById('pay-btn');
-  btn.disabled = true;
-  btn.textContent = 'Redirecionando…';
+  var btn=document.getElementById('pay-btn');
+  btn.disabled=true; btn.textContent='Redirecionando…';
 
-  var paymentURL = 'https://condorblanco.com/pagamento-sadhana-vip-2026'
-    + '?nome=' + encodeURIComponent(nome)
-    + '&email=' + encodeURIComponent(email)
-    + '&ingresso=' + encodeURIComponent(ingresso);
+  var paymentURL='https://condorblanco.com/pagamento-sadhana-vip-2026'
+    +'?nome='+encodeURIComponent(nome)
+    +'&email='+encodeURIComponent(email)
+    +'&ingresso='+encodeURIComponent(ingresso)
+    +'&qty='+encodeURIComponent(qty);
 
   setTimeout(function(){
-    // Em produção: window.location.href = paymentURL;
-    alert('✅ Dados VIP validados!\n\nEm produção, redirecionar para:\n' + paymentURL);
-    btn.disabled = false;
-    btn.textContent = '✦  Garantir Ingresso VIP — Ir para Pagamento';
-  }, 900);
+    alert('✅ Dados VIP validados!\n\nEm produção, redirecionar para:\n'+paymentURL);
+    btn.disabled=false;
+    btn.textContent='✦  Garantir Ingresso VIP — Ir para Pagamento';
+  },900);
 });
 </script>
 </body>
