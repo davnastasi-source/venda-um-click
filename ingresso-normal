@@ -144,6 +144,18 @@ h1,h2,h3,h4{font-family:'Raleway',sans-serif}
   color:var(--teal-dark);line-height:1.1;
 }
 .price-card .condition{font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.45}
+.click-hint{
+  font-size:12.5px;color:var(--text-muted);
+  font-style:italic;text-align:center;margin-top:4px;margin-bottom:16px;
+}
+.price-card{cursor:pointer}
+.price-card.selected{
+  border-color:var(--teal)!important;
+  background:var(--teal-light)!important;
+  box-shadow:0 0 0 3px rgba(24,119,125,0.15);
+}
+.price-card.selected .amount{color:var(--teal)}
+
 .usd-note{
   background:var(--sand);border-radius:8px;padding:12px 16px;
   font-size:13px;color:var(--text-muted);
@@ -196,6 +208,45 @@ h1,h2,h3,h4{font-family:'Raleway',sans-serif}
   padding-right:36px;cursor:pointer;
 }
 .f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f-row-3{display:grid;grid-template-columns:2fr 1fr 1.2fr;gap:14px;margin-bottom:16px}
+
+/* ── QTY STEPPER ── */
+.qty-stepper{
+  display:flex;align-items:center;
+  background:#fff;
+  border:1.5px solid rgba(255,255,255,0.2);
+  border-radius:10px;
+  overflow:hidden;
+  height:46px;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.qty-stepper:focus-within{
+  border-color:#f0c96e;
+  box-shadow:0 0 0 3px rgba(240,201,110,0.2);
+}
+.qty-btn{
+  width:42px;height:100%;flex-shrink:0;
+  background:rgba(24,119,125,0.07);
+  border:none;cursor:pointer;
+  font-size:1.2rem;font-weight:300;color:var(--teal-dark);
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.15s;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.qty-btn:hover{background:rgba(24,119,125,0.16)}
+.qty-btn:active{background:rgba(24,119,125,0.25)}
+.qty-input{
+  flex:1;border:none;outline:none;
+  text-align:center;
+  font-family:'Raleway',sans-serif;font-size:1.05rem;font-weight:700;
+  color:var(--text);background:transparent;
+  -moz-appearance:textfield;
+  padding:0;
+}
+.qty-input::-webkit-inner-spin-button,
+.qty-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.qty-divider{width:1px;height:60%;background:rgba(0,0,0,0.1);flex-shrink:0}
 
 .terms-row{
   display:flex;gap:12px;align-items:flex-start;
@@ -261,6 +312,7 @@ footer a{color:#f0c96e;text-decoration:none}
 @media(max-width:580px){
   .card,.checkout-card{padding:28px 20px}
   .f-row{grid-template-columns:1fr}
+  .f-row-3{grid-template-columns:1fr}
   .hero{padding:48px 20px 64px}
   .pricing-cards{grid-template-columns:1fr}
 }
@@ -300,27 +352,28 @@ footer a{color:#f0c96e;text-decoration:none}
 
   <!-- 1 · INVESTIMENTO -->
   <section class="card">
-    <div class="section-title">Investimento</div>
+    <div class="section-title">Investimento — Ingresso Normal</div>
     <div class="section-title-line"></div>
 
     <div class="pricing-cards">
-      <div class="price-card featured">
-        <div class="badge">Melhor opção</div>
-        <div class="currency">BRL · À vista</div>
-        <div class="amount">R$ 4.500</div>
-        <div class="condition">Pix / Transferência</div>
-      </div>
-      <div class="price-card">
-        <div class="currency">BRL · 6×</div>
-        <div class="amount">R$ 4.950</div>
-        <div class="condition">Sem juros<br/>Cartão de crédito</div>
-      </div>
-      <div class="price-card">
+      <div class="price-card" data-value="10x_brl" data-price="5175" onclick="selectIngresso(this)">
         <div class="currency">BRL · 10×</div>
         <div class="amount">R$ 5.175</div>
         <div class="condition">Sem juros CC<br/>Entrada de 25%</div>
       </div>
+      <div class="price-card" data-value="6x_brl" data-price="4950" onclick="selectIngresso(this)">
+        <div class="currency">BRL · 6×</div>
+        <div class="amount">R$ 4.950</div>
+        <div class="condition">Sem juros<br/>Cartão de crédito</div>
+      </div>
+      <div class="price-card featured" data-value="avista_brl" data-price="4500" onclick="selectIngresso(this)">
+        <div class="badge">Melhor opção!</div>
+        <div class="currency">BRL · À vista</div>
+        <div class="amount">R$ 4.500</div>
+        <div class="condition">Pix / Transferência</div>
+      </div>
     </div>
+    <p class="click-hint">Clique na opção desejada para pré-selecionar no formulário ↓</p>
 
     <div class="usd-note" style="margin-bottom:12px">
       <strong>Pagamento em USD:</strong> USD 865 à vista · USD 951 parcelado
@@ -371,38 +424,57 @@ footer a{color:#f0c96e;text-decoration:none}
         <input type="text" id="f-endereco" placeholder="Logradouro + número + complemento" required/>
       </div>
 
-      <div class="f-row">
-        <div class="f-group">
-          <label>Tipo de ingresso *</label>
-          <select id="f-ingresso" required>
-            <option value="" disabled selected>Selecione…</option>
-            <option value="avista_brl">À vista — R$ 4.500 (Pix)</option>
-            <option value="6x_brl">6× sem juros — R$ 4.950 (CC)</option>
-            <option value="10x_brl">10× sem juros — R$ 5.175 (CC)</option>
-            <option value="avista_usd">À vista — USD 865</option>
-            <option value="parcelado_usd">Parcelado — USD 951</option>
-          </select>
-        </div>
+      <div class="f-group">
+        <label>Tipo de ingresso *</label>
+        <select id="f-ingresso" required>
+          <option value="" disabled selected>Selecione…</option>
+          <option value="10x_brl" data-price="5175">10× sem juros — R$ 5.175 (CC)</option>
+          <option value="6x_brl"  data-price="4950">6× sem juros — R$ 4.950 (CC)</option>
+          <option value="avista_brl" data-price="4500">À vista — R$ 4.500 (Pix) ★</option>
+          <option value="avista_usd" data-price="865">À vista — USD 865</option>
+          <option value="parcelado_usd" data-price="951">Parcelado — USD 951</option>
+        </select>
+      </div>
+
+      <div class="f-row-3">
         <div class="f-group">
           <label>Forma de pagamento *</label>
           <select id="f-pagamento" required>
             <option value="" disabled selected>Selecione…</option>
-            <option value="pix">À vista (100% no Pix)</option>
-            <option value="cc_6x">Cartão de crédito 6×</option>
-            <option value="cc_10x">Cartão de crédito 10×</option>
+            <option value="pix">À vista (Pix)</option>
+            <option value="cc_6x">Cartão 6×</option>
+            <option value="cc_10x">Cartão 10×</option>
             <option value="usd_wire">Transferência USD</option>
           </select>
+        </div>
+        <div class="f-group">
+          <label>Quantidade</label>
+          <div class="qty-stepper">
+            <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+            <div class="qty-divider"></div>
+            <input type="number" id="f-qty" class="qty-input" min="1" max="10" value="1" readonly/>
+            <div class="qty-divider"></div>
+            <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+        <div class="f-group">
+          <label>Valor total</label>
+          <input type="text" id="f-total" readonly placeholder="—" style="background:rgba(255,255,255,0.85);font-weight:700;text-align:center;cursor:default"/>
         </div>
       </div>
 
       <div class="f-group" style="margin-bottom:0">
         <div class="terms-row">
-          <input type="checkbox" id="f-termos" required/>
-          <label for="f-termos">
-            Declaro que aceito os termos descritos no
-            <a href="https://condorblanco.com" target="_blank">contrato</a>
-            e autorizo a Condor Blanco a tratar meus dados para fins de confirmação desta inscrição.
-          </label>
+          <input type="checkbox" id="f-termos1" required/>
+          <label for="f-termos1">Li e concordo com os <a href="https://condorblanco.com" target="_blank">Termos de Participação</a></label>
+        </div>
+        <div class="terms-row" style="margin-top:8px">
+          <input type="checkbox" id="f-termos2" required/>
+          <label for="f-termos2">Estou ciente das regras do retiro</label>
+        </div>
+        <div class="terms-row" style="margin-top:8px">
+          <input type="checkbox" id="f-termos3" required/>
+          <label for="f-termos3">Autorizo o uso dos meus dados pessoais (LGPD)</label>
         </div>
       </div>
 
@@ -466,16 +538,72 @@ footer a{color:#f0c96e;text-decoration:none}
 </footer>
 
 <script>
-// Sync ingresso ↔ pagamento selects for coherence
+// ── Price map ──
+var PRICES = {
+  '10x_brl':{'label':'R$ 5.175','unit':5175,'currency':'BRL'},
+  '6x_brl': {'label':'R$ 4.950','unit':4950,'currency':'BRL'},
+  'avista_brl':{'label':'R$ 4.500','unit':4500,'currency':'BRL'},
+  'avista_usd':{'label':'USD 865','unit':865,'currency':'USD'},
+  'parcelado_usd':{'label':'USD 951','unit':951,'currency':'USD'}
+};
+
+function fmtTotal(unit, qty, currency){
+  var t = unit * qty;
+  if(currency === 'USD') return 'USD ' + t.toLocaleString('en-US');
+  return 'R$ ' + t.toLocaleString('pt-BR');
+}
+
+function updateTotal(){
+  var sel = document.getElementById('f-ingresso');
+  var qty = parseInt(document.getElementById('f-qty').value) || 1;
+  var v = sel.value;
+  var tot = document.getElementById('f-total');
+  if(v && PRICES[v]){
+    tot.value = fmtTotal(PRICES[v].unit, qty, PRICES[v].currency);
+  } else {
+    tot.value = '';
+  }
+}
+
+// ── Click on price card → pre-select ingresso + pagamento ──
+function selectIngresso(card){
+  document.querySelectorAll('.price-card').forEach(function(c){ c.classList.remove('selected'); });
+  card.classList.add('selected');
+  var v = card.dataset.value;
+  var sel = document.getElementById('f-ingresso');
+  if(sel) sel.value = v;
+  var pg = document.getElementById('f-pagamento');
+  if(v === 'avista_brl')   pg.value = 'pix';
+  else if(v === '6x_brl')  pg.value = 'cc_6x';
+  else if(v === '10x_brl') pg.value = 'cc_10x';
+  else if(v === 'avista_usd'||v === 'parcelado_usd') pg.value = 'usd_wire';
+  updateTotal();
+  document.getElementById('checkout').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── Sync ingresso select ↔ pagamento + total ──
 document.getElementById('f-ingresso').addEventListener('change', function(){
   var v = this.value;
   var pg = document.getElementById('f-pagamento');
-  if(v === 'avista_brl')      pg.value = 'pix';
-  else if(v === '6x_brl')     pg.value = 'cc_6x';
-  else if(v === '10x_brl')    pg.value = 'cc_10x';
-  else if(v === 'avista_usd' || v === 'parcelado_usd') pg.value = 'usd_wire';
+  if(v === 'avista_brl')   pg.value = 'pix';
+  else if(v === '6x_brl')  pg.value = 'cc_6x';
+  else if(v === '10x_brl') pg.value = 'cc_10x';
+  else if(v === 'avista_usd'||v === 'parcelado_usd') pg.value = 'usd_wire';
+  // sync card highlight
+  document.querySelectorAll('.price-card').forEach(function(c){
+    c.classList.toggle('selected', c.dataset.value === v);
+  });
+  updateTotal();
 });
 
+function changeQty(delta){
+  var el = document.getElementById('f-qty');
+  var v = Math.min(10, Math.max(1, (parseInt(el.value) || 1) + delta));
+  el.value = v;
+  updateTotal();
+}
+
+// ── Submit ──
 document.getElementById('checkout-form').addEventListener('submit', function(e){
   e.preventDefault();
 
@@ -486,7 +614,10 @@ document.getElementById('checkout-form').addEventListener('submit', function(e){
   var endereco = document.getElementById('f-endereco').value.trim();
   var ingresso = document.getElementById('f-ingresso').value;
   var pagamento= document.getElementById('f-pagamento').value;
-  var termos   = document.getElementById('f-termos').checked;
+  var qty      = document.getElementById('f-qty').value;
+  var t1       = document.getElementById('f-termos1').checked;
+  var t2       = document.getElementById('f-termos2').checked;
+  var t3       = document.getElementById('f-termos3').checked;
 
   var erros = [];
   if(!nome)     erros.push('Nome completo');
@@ -496,28 +627,28 @@ document.getElementById('checkout-form').addEventListener('submit', function(e){
   if(!endereco) erros.push('Endereço');
   if(!ingresso) erros.push('Tipo de ingresso');
   if(!pagamento)erros.push('Forma de pagamento');
-  if(!termos)   erros.push('Aceite dos termos');
+  if(!t1)       erros.push('Aceitar os Termos de Participação');
+  if(!t2)       erros.push('Confirmar ciência das regras do retiro');
+  if(!t3)       erros.push('Autorização de dados (LGPD)');
 
   if(erros.length){
-    alert('Por favor, preencha os campos obrigatórios:\n\n• ' + erros.join('\n• '));
+    alert('Por favor, complete os campos obrigatórios:\n\n• ' + erros.join('\n• '));
     return;
   }
 
-  // Disable button while "processing"
   var btn = document.getElementById('pay-btn');
   btn.disabled = true;
   btn.textContent = 'Redirecionando…';
 
-  // Store basic data and redirect to payment page
-  // Replace the URL below with your actual payment link (Hotmart, Stripe, etc.)
   var paymentURL = 'https://condorblanco.com/pagamento-sadhana-2026'
     + '?nome=' + encodeURIComponent(nome)
     + '&email=' + encodeURIComponent(email)
-    + '&ingresso=' + encodeURIComponent(ingresso);
+    + '&ingresso=' + encodeURIComponent(ingresso)
+    + '&qty=' + encodeURIComponent(qty);
 
   setTimeout(function(){
-    // In production, replace with: window.location.href = paymentURL;
-    alert('✅ Dados validados!\n\nEm produção, o usuário seria redirecionado para:\n' + paymentURL + '\n\nSubstitua a URL pelo link real de pagamento (Hotmart, Stripe, etc.).');
+    // Em produção: window.location.href = paymentURL;
+    alert('✅ Dados validados!\n\nEm produção, redirecionar para:\n' + paymentURL + '\n\nSubstitua pelo link real de pagamento.');
     btn.disabled = false;
     btn.textContent = 'Ir para Pagamento →';
   }, 900);
