@@ -374,6 +374,105 @@ footer::before{
 footer strong{color:#fff}
 footer a{color:var(--gold-bright);text-decoration:none}
 
+/* ── INFO SECTION ── */
+.info-section{margin-bottom:48px}
+
+.info-block{
+  background:var(--sand);border-radius:8px;
+  padding:4px 0;margin-bottom:24px;
+}
+.info-row{
+  display:flex;gap:12px;
+  padding:11px 16px;
+  border-bottom:1px solid var(--sand-dark);
+  align-items:baseline;
+}
+.info-row:last-child{border-bottom:none}
+.info-label{
+  font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;color:var(--teal);
+  flex-shrink:0;width:130px;
+}
+.info-value{font-size:13.5px;color:var(--text);line-height:1.45}
+
+.info-sub-title{
+  font-family:'Raleway',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--teal-dark);margin-bottom:10px;margin-top:24px;
+  padding-bottom:6px;border-bottom:2px solid var(--gold-light,#fef3d0);
+}
+.info-text{font-size:13.5px;color:var(--text-muted);line-height:1.75;margin-bottom:0}
+.info-text strong{color:var(--text)}
+.info-note{
+  font-size:12px;color:var(--text-muted);font-style:italic;
+  margin-top:10px;line-height:1.6;
+}
+
+/* elements grid */
+.elements-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px;
+}
+.element-card{
+  background:var(--teal-light);border-radius:8px;
+  padding:14px 12px;text-align:center;
+}
+.element-icon{font-size:1.3rem;margin-bottom:4px}
+.element-name{
+  font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+  color:var(--teal-dark);margin-bottom:4px;
+}
+.element-desc{font-size:11px;color:var(--text-muted);line-height:1.45}
+
+/* included / not included */
+.incl-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.incl-box{border-radius:8px;padding:16px 18px;font-size:13px;line-height:1.7}
+.incl-box.included{background:#edf7f0;border-left:3px solid #2da05a}
+.incl-box.not-incl{background:#fff8f0;border-left:3px solid var(--gold)}
+.incl-box p strong{color:var(--text)}
+.incl-title{
+  font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:0.5px;margin-bottom:8px;color:var(--text);
+}
+
+/* price table */
+.price-table{border:1.5px solid var(--sand-dark);border-radius:8px;overflow:hidden;margin-top:12px}
+.pt-row{
+  display:grid;grid-template-columns:1.4fr 1fr 1.4fr;
+  padding:10px 16px;font-size:13px;
+  border-bottom:1px solid var(--sand-dark);
+  align-items:center;
+}
+.pt-row:last-child{border-bottom:none}
+.pt-row.header{
+  background:var(--sand);
+  font-family:'Raleway',sans-serif;font-size:10.5px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);
+}
+.pt-price{font-family:'Raleway',sans-serif;font-weight:700;color:var(--teal-dark)}
+.pt-price.gold{color:var(--gold-dark)}
+
+/* cancel table */
+.cancel-table{border:1.5px solid var(--sand-dark);border-radius:8px;overflow:hidden;margin-top:12px}
+.ct-row{
+  display:grid;grid-template-columns:1fr auto;
+  padding:10px 16px;font-size:13px;
+  border-bottom:1px solid var(--sand-dark);
+  gap:16px;align-items:center;
+}
+.ct-row:last-child{border-bottom:none}
+.ct-row.header{
+  background:var(--sand);
+  font-family:'Raleway',sans-serif;font-size:10.5px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);
+}
+.ct-row em{font-size:11.5px;color:var(--text-muted)}
+.ct-val{
+  font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+  white-space:nowrap;text-align:right;color:var(--text);
+}
+.ct-val.good{color:#2da05a}
+.ct-val.warn{color:#c97a00}
+.ct-val.bad{color:#c94040}
+
 /* ── RESPONSIVE ── */
 @media(max-width:580px){
   .card,.checkout-card{padding:28px 20px}
@@ -381,6 +480,13 @@ footer a{color:var(--gold-bright);text-decoration:none}
   .f-row-3{grid-template-columns:1fr}
   .hero{padding:48px 20px 64px}
   .pricing-cards{grid-template-columns:1fr}
+  .elements-grid{grid-template-columns:1fr 1fr}
+  .incl-grid{grid-template-columns:1fr}
+  .pt-row{grid-template-columns:1fr 1fr;font-size:12px}
+  .pt-row span:last-child{display:none}
+  .pt-row.header span:last-child{display:none}
+  .info-label{width:100px}
+  .ct-row{grid-template-columns:1fr auto;font-size:12px}
 }
 </style>
 </head>
@@ -565,21 +671,6 @@ footer a{color:var(--gold-bright);text-decoration:none}
         </div>
       </div>
 
-      <div class="f-group" style="margin-bottom:0">
-        <div class="terms-row">
-          <input type="checkbox" id="f-termos1" required/>
-          <label for="f-termos1">Li e concordo com os <a href="https://condorblanco.com" target="_blank">Termos de Participação</a></label>
-        </div>
-        <div class="terms-row" style="margin-top:8px">
-          <input type="checkbox" id="f-termos2" required/>
-          <label for="f-termos2">Estou ciente das regras do retiro</label>
-        </div>
-        <div class="terms-row" style="margin-top:8px">
-          <input type="checkbox" id="f-termos3" required/>
-          <label for="f-termos3">Autorizo o uso dos meus dados pessoais (LGPD)</label>
-        </div>
-      </div>
-
       <button type="submit" class="pay-btn" id="pay-btn">
         ✦ &nbsp; Garantir Ingresso VIP — Ir para Pagamento
       </button>
@@ -630,6 +721,137 @@ footer a{color:var(--gold-bright);text-decoration:none}
         <div class="value">Muito limitadas</div>
       </div>
     </div>
+  </section>
+
+  <!-- 4 · INFORMAÇÕES DO EVENTO VIP -->
+  <section class="card info-section">
+
+    <div class="section-title">Informações do Evento</div>
+    <div class="section-title-line"></div>
+
+    <!-- IDENTIFICAÇÃO -->
+    <div class="info-block">
+      <div class="info-row">
+        <span class="info-label">Nome do evento</span>
+        <span class="info-value">SADHANA VIP — Experiência Premium · Bahia 2026</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Organizador</span>
+        <span class="info-value">Condor Blanco — Suryavan Solar e Sol Deva Nita</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Data</span>
+        <span class="info-value">25 a 29 de junho de 2026 (5 dias · 4 noites)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Local</span>
+        <span class="info-value">Piracanga, Bahia · Brasil</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Categoria</span>
+        <span class="info-value">Pacote VIP — vagas muito limitadas</span>
+      </div>
+    </div>
+
+    <!-- DESCRIÇÃO DO PROGRAMA VIP -->
+    <div class="info-sub-title">Descrição do Programa</div>
+    <p class="info-text">
+      Sādhanā é uma palavra em sânscrito que significa um conjunto de práticas que purificam, transformam e orientam a vida em direção à verdade. O <strong>Pacote VIP</strong> oferece uma experiência ampliada deste retiro de cinco dias: além de todo o programa coletivo — yoga, meditação, rituais, cerimônia e contemplação — você recebe atenção e suporte especiais que aprofundam e personalizam a sua jornada.
+    </p>
+
+    <div class="elements-grid">
+      <div class="element-card">
+        <div class="element-icon">🌍</div>
+        <div class="element-name">Terra</div>
+        <div class="element-desc">Yoga, cacau e o solo de Piracanga como base de toda prática</div>
+      </div>
+      <div class="element-card">
+        <div class="element-icon">💧</div>
+        <div class="element-name">Água</div>
+        <div class="element-desc">Meditações guiadas, dança e rodas de partilha</div>
+      </div>
+      <div class="element-card">
+        <div class="element-icon">🔥</div>
+        <div class="element-name">Fogo</div>
+        <div class="element-desc">Conversas com Suryavan e cerimônia de fogo noturna</div>
+      </div>
+      <div class="element-card">
+        <div class="element-icon">🌬️</div>
+        <div class="element-name">Ar</div>
+        <div class="element-desc">Roda de cantos, pranayama e respiração coletiva</div>
+      </div>
+    </div>
+
+    <!-- INCLUÍDO VIP / NÃO INCLUÍDO -->
+    <div class="incl-grid" style="margin-top:28px">
+      <div class="incl-box included">
+        <div class="incl-title">✅ Incluído no Pacote VIP</div>
+        <p>
+          Todas as atividades do programa coletivo (práticas espirituais, meditações, rituais, vivências em grupo) +
+          <strong>Sauna cerimonial</strong> conduzida por Suryavan e Sol Deva Nita ·
+          <strong>Vivência de 2 horas</strong> encontro exclusivo para o grupo VIP ·
+          <strong>Leitura de Sadhana personalizada</strong> · <strong>Ebook</strong> Poderes Secretos Sadhana ·
+          <strong>Kit VIP</strong> com objetos de prática · Acompanhamento antes, durante e após o retiro.
+        </p>
+      </div>
+      <div class="incl-box not-incl">
+        <div class="incl-title">🚫 Não incluído</div>
+        <p>Hospedagem e alimentação · Passagens aéreas · Traslados · Gastos pessoais · Gorjetas · Seguros.<br/><br/>
+        <strong>Hospedagem:</strong> oferecida pela Unah Piracanga — R$ 1.060 a R$ 2.334 por pessoa para 4 noites com todas as refeições incluídas.</p>
+      </div>
+    </div>
+
+    <!-- PREÇO VIP -->
+    <div class="info-sub-title" style="margin-top:28px">Preço</div>
+    <div class="price-table">
+      <div class="pt-row header">
+        <span>Modalidade</span><span>Valor total</span><span>Condição</span>
+      </div>
+      <div class="pt-row">
+        <span>À vista</span><span class="pt-price gold">R$ 7.500</span><span>Pix / Transferência</span>
+      </div>
+      <div class="pt-row">
+        <span>6× sem juros</span><span class="pt-price">R$ 8.250</span><span>Cartão de crédito</span>
+      </div>
+      <div class="pt-row">
+        <span>10× sem juros</span><span class="pt-price">R$ 8.625</span><span>CC · Entrada de 25%</span>
+      </div>
+    </div>
+    <p class="info-note">⚠️ A inscrição não garante participação. Em alguns casos será realizada uma entrevista para garantir a harmonia e intenção do grupo VIP.</p>
+
+    <!-- POLÍTICA DE CANCELAMENTO -->
+    <div class="info-sub-title" style="margin-top:28px">Política de Cancelamento</div>
+    <div class="cancel-table">
+      <div class="ct-row header">
+        <span>Prazo antes do início</span><span>Retenção</span>
+      </div>
+      <div class="ct-row">
+        <span>Até 7 dias após a contratação <em>(direito de arrependimento)</em></span>
+        <span class="ct-val good">Reembolso integral</span>
+      </div>
+      <div class="ct-row">
+        <span>Mais de 60 dias antes</span>
+        <span class="ct-val">30% retido</span>
+      </div>
+      <div class="ct-row">
+        <span>Entre 59 e 30 dias antes</span>
+        <span class="ct-val">35% retido</span>
+      </div>
+      <div class="ct-row">
+        <span>Entre 29 e 15 dias antes</span>
+        <span class="ct-val">40% retido</span>
+      </div>
+      <div class="ct-row">
+        <span>Entre 14 e 8 dias antes</span>
+        <span class="ct-val warn">70% retido</span>
+      </div>
+      <div class="ct-row">
+        <span>7 dias ou menos antes do início</span>
+        <span class="ct-val bad">Sem reembolso</span>
+      </div>
+    </div>
+    <p class="info-note">O direito de arrependimento (reembolso integral) aplica-se somente quando a contratação ocorreu com mais de 7 dias de antecedência em relação à data de início do programa. Exceções legalmente previstas são respeitadas conforme o contrato.</p>
+
   </section>
 
 </div>
@@ -696,9 +918,6 @@ document.getElementById('vip-form').addEventListener('submit',function(e){
   var ingresso = document.getElementById('f-ingresso').value;
   var pagamento= document.getElementById('f-pagamento').value;
   var qty      = document.getElementById('f-qty').value;
-  var t1       = document.getElementById('f-termos1').checked;
-  var t2       = document.getElementById('f-termos2').checked;
-  var t3       = document.getElementById('f-termos3').checked;
 
   var erros=[];
   if(!nome)     erros.push('Nome completo');
@@ -708,9 +927,6 @@ document.getElementById('vip-form').addEventListener('submit',function(e){
   if(!endereco) erros.push('Endereço');
   if(!ingresso) erros.push('Tipo de ingresso');
   if(!pagamento)erros.push('Forma de pagamento');
-  if(!t1)       erros.push('Aceitar os Termos de Participação');
-  if(!t2)       erros.push('Confirmar ciência das regras do retiro');
-  if(!t3)       erros.push('Autorização de dados (LGPD)');
 
   if(erros.length){alert('Por favor, complete:\n\n• '+erros.join('\n• '));return;}
 
